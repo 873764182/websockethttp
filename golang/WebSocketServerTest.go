@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func StartUp() {
+func TestStartUp() {
 	en := new(WebSocketServer)
 	en.RegisterConnVerify(func(request *http.Request) bool {
 		return true
