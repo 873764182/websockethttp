@@ -5,10 +5,11 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"testing"
 	"time"
 )
 
-func TestStartUp() {
+func TestStartUp(t *testing.T) {
 	en := new(WebSocketServer)
 	en.RegisterConnVerify(func(request *http.Request) bool {
 		return true
