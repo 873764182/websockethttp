@@ -1,4 +1,4 @@
-module websockethttp
+module github.com/873764182/websockethttp
 
 go 1.17
 
