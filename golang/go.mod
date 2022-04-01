@@ -1,4 +1,4 @@
-module websockethttp
+module gitee.com/vesmr/websockethttp
 
 go 1.17
 
