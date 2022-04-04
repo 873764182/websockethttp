@@ -20,7 +20,11 @@ const ws = {
                     result = body
                     break
                 case "base64":
-                    // result = Base64.encode(body)
+                    if (window !== undefined) {
+                        result = window.btoa(body)
+                    } else {
+                        // todo 如果在非浏览器环境运行需要引入第三方库处理  https://github.com/dankogai/js-base64
+                    }
                     break
                 case "url":
                     result = encodeURIComponent(body)
@@ -42,7 +46,11 @@ const ws = {
                     result = body
                     break
                 case "base64":
-                    // result = Base64.decode(body)
+                    if (window !== undefined) {
+                        result = window.atob(body)
+                    } else {
+                        // todo 如果在非浏览器环境运行需要引入第三方库处理  https://github.com/dankogai/js-base64
+                    }
                     break
                 case "url":
                     result = decodeURIComponent(body)
