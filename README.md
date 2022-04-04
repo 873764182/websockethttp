@@ -20,7 +20,7 @@
 >
 > 因为socket协议是没有响应值的，所以 response 我们约定通过异步线程回调的方式响应，通过uid做唯一处理
 >
-> Handler（处理器）区分业务功能
+> 抽象出Handler（处理器）这一层做区分业务功能，所有业务都在handler中处理
 >
 > 所以我们得到以下的request与response的数据格式
 
