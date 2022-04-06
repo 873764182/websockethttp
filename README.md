@@ -88,16 +88,16 @@
 
 这是一个聚合项目，分有多种语言版本，每一个语言都有客户端与服务端版本，根据你的项目语言与需求进行选择。
 
-- golang go语言版本（暂时仅有server版本）
-- javascript js语言版本（暂时仅有client版本）
+- [golang](https://gitee.com/vesmr/websockethttp-go "websockethttp-go")
+- [javascript](https://gitee.com/vesmr/websockethttp-js "websockethttp-js")
 - java 开发中...
 - c/c++ 开发中...
 - dart 开发中...
 
 #### 安装教程
 
-- 直接下载对应版本源码到自己的项目中（推荐）
-- 使用各种语言的中央仓库命令安装（暂未实现）
+- 直接下载对应版本源码到自己的项目中
+- 使用各种语言的中央仓库命令安装
 
 #### 使用说明
 
