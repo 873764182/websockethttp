@@ -8,7 +8,26 @@
 2. 为了节约资源，项目一般只有一个socket通道连接，然后多个业务功能共用这一个通道传输数据，需要对数据进行业务区分
 3. 消息从socket发出后没有回复，不知道对方是否处理，需要一种约定对每一次的发送都要做响应
 
-> “WebSocket Http” 的目的就是为了做到以上功能一种上层约定，让socket之间的数据传输可以像Http一样简单，而且是双向的， 不单单是客户端对服务端发请求，服务端也可以对客户端发送请求，双方处理机制完全相同
+“WebSocket Http” 的目的就是为了做到以上功能一种上层约定，让socket之间的数据传输可以像Http一样简单，而且是双向的， 不单单是客户端对服务端发请求，服务端也可以对客户端发送请求，双方处理机制完全相同，差异仅客户端没有过滤器设置
+
+```go
+	// 添加 client 对 server 请求的过滤器，可以添加多个，返回 true 将终止请求，也就是不会到handler处理器
+	server.AddClientRequestFilterFunc(func(request *SocketRequest, channel *ConnChannel) bool {
+		return false
+	})
+	// 添加 server 对 client 响应的过滤器，可以添加多个，返回 true 将终止响应，也就是不会响应数据
+	server.AddClientResponseFilterFunc(func(request *SocketResponse, channel *ConnChannel) bool {
+		return false
+	})
+	// 添加server对client发送request时的过滤器
+	server.AddServerRequestFilterFunc(func(request *SocketRequest, channel *ConnChannel) bool {
+		return false
+	})
+	// 添加client对server发送response时的过滤器
+	server.AddServerResponseFilterFunc(func(request *SocketResponse, channel *ConnChannel) bool {
+		return false
+	})
+```
 
 ##### 需求分析
 

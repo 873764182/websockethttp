@@ -1,7 +1,6 @@
 package websockethttp
 
 import (
-	"github.com/go-basic/uuid"
 	"log"
 	"net/http"
 	"strconv"
@@ -45,7 +44,7 @@ func TestStartUp(t *testing.T) {
 		for name, channel := range server.GetConnChannelMap() {
 			// server 向 client 发送 request
 			channel.SendMessage(&SocketRequest{
-				Uid:     uuid.New(),
+				Uid:     UuidNew(),
 				Handler: "Chat",
 				Method:  "Room",
 				Header:  make(map[string]string),

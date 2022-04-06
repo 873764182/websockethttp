@@ -2,7 +2,9 @@ package websockethttp
 
 import (
 	"container/list"
+	"crypto/rand"
 	"encoding/base64"
+	"fmt"
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
@@ -163,6 +165,28 @@ func MessageBodyEncode(sign, body string) string {
 		log.Printf("MessageBodyDecode: 加密格式 %v \n", sign)
 	}
 	return decodeString
+}
+
+// GenerateUUID 生成作为消息UID的UUID Reference：https://github.com/go-basic/uuid
+func GenerateUUID() (string, error) {
+	buf := make([]byte, 16)
+	if _, err := rand.Read(buf); err != nil {
+		return "", fmt.Errorf("无法读取随机字节： %v", err)
+	}
+	return fmt.Sprintf("%x-%x-%x-%x-%x",
+		buf[0:4],
+		buf[4:6],
+		buf[6:8],
+		buf[8:10],
+		buf[10:16]), nil
+}
+
+func UuidNew() string {
+	uuid, err := GenerateUUID()
+	if err != nil {
+		return ""
+	}
+	return uuid
 }
 
 // 检查保存连接是否有失效的
