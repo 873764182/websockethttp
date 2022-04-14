@@ -77,7 +77,7 @@
 - **code**: response 状态码
 - **msg**：response 状态说明
 
-> 使用 **handler** 与 **method** 组合的方式模拟了**http**中的**endpoint**（接口）概念
+> 使用 **handler** 与 **method** 组合的方式模拟了**http**中的 **endpoint** (接口)概念
 >
 > 每一个 **handler** 与 **method** 都对应一个**唯一**的处理器函数
 >
