@@ -12,7 +12,7 @@
 - 让socket之间的数据传输可以像 [HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP) 一样简单，而且是双向的
 - 不单单是客户端对服务端发请求，服务端也可以对客户端发送请求
 
-##### 需求分析
+#### 需求分析
 
 1. 为了处理第一种情况，我们需要有一种健康检查机制，定时检查连接状态，断开重连机制
 
@@ -110,7 +110,7 @@
 
 #### DEMO示例
 
-##### 服务器注册 Handler 处理函数
+##### 服务器注册 Handler 处理函数 （注意 名称 与 方法）
 
 ```go
 server.RegisterRequestHandlerFunc("Default", "Default", func (context *SocketContext) {
@@ -118,7 +118,7 @@ server.RegisterRequestHandlerFunc("Default", "Default", func (context *SocketCon
 })
 ```
 
-##### 发送 request 消息到服务器 同时服务器响应 response
+##### 客户端发送 request 消息到服务器 Handler 处理器 （服务器响应 response）
 
 ```javascript
 websockethttp.sendBodyAndHeaderMessage('Default', 'Default', {}, 'Hi', (response) => {
