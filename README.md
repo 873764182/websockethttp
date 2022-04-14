@@ -40,7 +40,7 @@
 
 9. 根据约定，抽象出的 **request** 与 **response** 格式如下
 
-###### request
+##### request
 
 ```json
 {
@@ -53,7 +53,7 @@
 }
 ```
 
-###### response
+##### response
 
 ```json
  {
@@ -66,7 +66,7 @@
 }
 ```
 
-##### Json字段说明
+##### 字段说明
 
 - **uid**：消息唯一ID（一般情况下，同一条消息request与response的uid相同）
 - **handler**：消息处理器名称
