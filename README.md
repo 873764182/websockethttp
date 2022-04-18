@@ -113,7 +113,7 @@
 ##### 服务器注册 Handler 处理函数 （注意 名称 与 方法）
 
 ```go
-server.RegisterRequestHandlerFunc("Default", "Default", func (context *SocketContext) {
+websockethttp.RegisterRequestHandlerFunc("Default", "Default", func (context *SocketContext) {
     log.Printf("收到请求：%v", context.Request.Body)
 })
 ```
@@ -130,7 +130,7 @@ websockethttp.sendBodyAndHeaderMessage('Default', 'Default', {}, 'Hi', (response
 
 ```go
 // 启动服务器
-websockethttp.CreateServer().LauncherDefaultServer("/websocket/http", 8080)
+websockethttp.LauncherDefaultServer("/websocket/http", 8080)
 ```
 
 ##### 客户端界面
