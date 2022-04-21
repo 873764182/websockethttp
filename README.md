@@ -45,7 +45,7 @@
 ```json
 {
   "uid": "",
-  "handler": "",
+  "process": "",
   "method": "",
   "header": {},
   "body": "",
@@ -69,7 +69,7 @@
 ##### 字段说明
 
 - **uid**：消息唯一ID（一般情况下，同一条消息request与response的uid相同）
-- **handler**：消息处理器名称
+- **process**：消息处理器名称
 - **method**：消息处理器方法
 - **header**：请求头或者响应头
 - **body**：消息体（可以是JSON字符串，在处理函数里面自己解析）
@@ -77,9 +77,9 @@
 - **code**: response 状态码
 - **msg**：response 状态说明
 
-> 使用 **handler** 与 **method** 组合的方式模拟了**http**中的 **endpoint** (接口)概念
+> 使用 **process** 与 **method** 组合的方式模拟了**http**中的 **endpoint** (接口)概念
 >
-> 每一个 **handler** 与 **method** 都对应一个**唯一**的处理器函数
+> 每一个 **process** 与 **method** 都对应一个**唯一**的处理器函数
 >
 > **header** 与 **body** 可以给**处理器函数**传递参数
 
@@ -110,15 +110,15 @@
 
 #### DEMO示例
 
-##### 服务器注册 Handler 处理函数 （注意 名称 与 方法）
+##### 服务器注册 Process 处理函数 （注意 名称 与 方法）
 
 ```go
-websockethttp.RegisterRequestHandlerFunc("Default", "Default", func (context *SocketContext) {
+websockethttp.RegisterRequestProcessFunc("Default", "Default", func (context *SocketContext) {
     log.Printf("收到请求：%v", context.Request.Body)
 })
 ```
 
-##### 客户端发送 request 消息到服务器 Handler 处理器 （服务器响应 response）
+##### 客户端发送 request 消息到服务器 Process 处理器 （服务器响应 response）
 
 ```javascript
 websockethttp.sendBodyAndHeaderMessage('Default', 'Default', {}, 'Hi', (response) => {
