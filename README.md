@@ -1,6 +1,10 @@
-# WebSocketHttp
+# WebSocket - Http
 
 #### 项目介绍
+
+> **websockethttp** 是websocket的一个**子协议**，力求使socket使用像http一样方便
+
+#### 功能描述
 
 使用WebSocket协议，可以非常方便的在客户端与服务端之间建立连接通道。 但是在我们的实际项目中往往会遇到以下问题：
 
@@ -8,8 +12,8 @@
 2. 为了节约资源，多业务共用一个连接
 3. Socket发送没有响应，不确定是否发送成功
 
-- **WebSocketHttp** 的目的就是为了处理以上问题的一种上层约定
-- 让socket之间的数据传输可以像 [HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP) 一样简单，而且是双向的
+- **WebSocketHttp** 的目的就是为了处理以上问题的一种上层协议
+- 让socket之间的数据传输可以像HTTP一样简单，而且是双向的
 - 不单单是客户端对服务端发请求，服务端也可以对客户端发送请求
 
 #### 需求分析
@@ -38,7 +42,7 @@
 8. 注意这里指的“客户端”与“服务端”不是传统意义上的，而是：当前谁发送request谁为客户端，谁发送response谁为服务端
 
 
-9. 我们有了 request / response，当然需要有一个处理器来处理它们，所以我们抽象出 process 层负责处理
+9. 我们有了 request 与 response，当然需要有一个处理器来处理它们，所以我们再定义一个叫 process 的负责处理
 
 
 10. 根据约定，抽象出的 **request** 与 **response** 格式如下
