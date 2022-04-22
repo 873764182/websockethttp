@@ -38,7 +38,10 @@
 8. 注意这里指的“客户端”与“服务端”不是传统意义上的，而是：当前谁发送request谁为客户端，谁发送response谁为服务端
 
 
-9. 根据约定，抽象出的 **request** 与 **response** 格式如下
+9. 我们有了 request / response，当然需要有一个处理器来处理它们，所以我们抽象出 process 层负责处理
+
+
+10. 根据约定，抽象出的 **request** 与 **response** 格式如下
 
 ##### request
 
@@ -79,13 +82,13 @@
 
 > 使用 **process** 与 **method** 组合的方式模拟了**http**中的 **endpoint** (接口)概念
 >
-> 每一个 **process** 与 **method** 都对应一个**唯一**的处理器函数
+> 每一个 **process** 与 **method** 都对应一个**唯一**的**处理器函数**
 >
 > **header** 与 **body** 可以给**处理器函数**传递参数
 
 ##### 数据优化
 
-> request / response **字段** 原则上是固定的，为了减少数据量，可以将 **key** 再缩减
+> request / response **字段**原则上是**固定**的，为了减少数据量，可以将 **key** 再缩减
 
 ##### request
 
@@ -161,7 +164,7 @@ websockethttp.sendMessage("Default", "Default", func (context *SocketContext) {
 ##### 客户端 JS
 
 ```javascript
-// client 注册 Process 监听 server 消息
+// client 注册 Process 监听 server 推送
 websockethttp.registerProcessFunc('Default', 'Default', {}, 'Hi', (request) => {
     console.log('request', request)
 })
