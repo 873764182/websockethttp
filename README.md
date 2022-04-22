@@ -2,7 +2,7 @@
 
 #### 项目介绍
 
-> **websockethttp** 是websocket的一个**子协议**，力求使socket使用像http一样方便
+> **websockethttp** 是 websocket 的一个 **子协议**，让 websocket 使用像 http 一样方便
 
 #### 功能描述
 
