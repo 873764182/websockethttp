@@ -83,13 +83,45 @@
 >
 > **header** 与 **body** 可以给**处理器函数**传递参数
 
+##### 数据优化
+
+> request / response **字段** 原则上是固定的，为了减少数据量，可以将 **key** 再缩减
+
+##### request
+
+```json
+{
+  "U": "",
+  "P": "",
+  "M": "",
+  "H": {},
+  "B": "",
+  "S": ""
+}
+```
+
+##### response
+
+```json
+ {
+  "U": "",
+  "H": {},
+  "C": 0,
+  "M": "",
+  "B": "",
+  "S": ""
+}
+```
+
+> **以上是最终的 request / response 结构** 
+
 #### 消息流程
 
 ![message.png](.images/message.png "message")
 
 #### 软件架构
 
-这是一个聚合项目，分有多种语言版本，每一个语言都有客户端与服务端版本，根据你的项目语言与需求进行选择。
+选择你需要的语言版本
 
 - [golang](https://gitee.com/vesmr/websockethttp-go "golang")
 - [javascript](https://gitee.com/vesmr/websockethttp-js "javascript")
@@ -110,30 +142,37 @@
 
 #### DEMO示例
 
-##### 服务器注册 Process 处理函数 （注意 名称 与 方法）
+> server 与 client 都注册了一个名称为 Default 方法为 Default 的 Process 监听对方消息
+
+##### 服务器 GO
 
 ```go
-websockethttp.RegisterRequestProcessFunc("Default", "Default", func (context *SocketContext) {
+// server 注册 Process 监听 client 消息
+websockethttp.RegisterProcessFunc("Default", "Default", func (context *SocketContext) {
     log.Printf("收到请求：%v", context.Request.Body)
+})
+
+// server 推送消息到 client 的 Process
+websockethttp.sendMessage("Default", "Default", func (context *SocketContext) {
+    log.Printf("发送结果：%v", context.Response.Code)
 })
 ```
 
-##### 客户端发送 request 消息到服务器 Process 处理器 （服务器响应 response）
+##### 客户端 JS
 
 ```javascript
-websockethttp.sendBodyAndHeaderMessage('Default', 'Default', {}, 'Hi', (response) => {
+// client 注册 Process 监听 server 消息
+websockethttp.registerProcessFunc('Default', 'Default', {}, 'Hi', (request) => {
+    console.log('request', request)
+})
+
+// client 发送消息到 server 的 Process
+websockethttp.sendMessage('Default', 'Default', {}, 'Hi', (response) => {
     console.log('response', response)
 })
 ```
 
-##### 服务端启动
-
-```go
-// 启动服务器
-websockethttp.LauncherDefaultServer("/websocket/http", 8080)
-```
-
-##### 客户端界面
+##### Demo UI
 
 ![chatroom.png](.images/chatroom.png "chatroom")
 
