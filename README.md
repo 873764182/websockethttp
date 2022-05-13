@@ -42,10 +42,10 @@
 8. 注意这里指的“客户端”与“服务端”不是传统意义上的，而是：当前谁发送request谁为客户端，谁发送response谁为服务端
 
 
-9. 我们有了 request 与 response，当然需要有一个处理器来处理它们，所以我们再定义一个叫 process 的负责处理
+9. 我们有了request与response，当然需要有一个统一的东西来处理它们，所以我们再定义一个叫process的负责处理，类似与web中的controller
 
 
-10. 根据约定，抽象出的 **request** 与 **response** 格式如下
+10. 根据约定 **request** 与 **response** 格式如下
 
 ##### request
 
@@ -53,10 +53,8 @@
 {
   "uid": "",
   "process": "",
-  "method": "",
   "header": {},
-  "body": "",
-  "sign": ""
+  "body": ""
 }
 ```
 
@@ -68,8 +66,7 @@
   "header": {},
   "code": 0,
   "msg": "",
-  "body": "",
-  "sign": ""
+  "body": ""
 }
 ```
 
@@ -77,16 +74,14 @@
 
 - **uid**：消息唯一ID（一般情况下，同一条消息request与response的uid相同）
 - **process**：消息处理器名称
-- **method**：消息处理器方法
 - **header**：请求头或者响应头
 - **body**：消息体（可以是JSON字符串，在处理函数里面自己解析）
-- **sign**：body 编码方式 -> none, url, base64
 - **code**: response 状态码
 - **msg**：response 状态说明
 
-> 使用 **process** 与 **method** 组合的方式模拟了**http**中的 **endpoint** (接口)概念
+> 使用 **process** 的方式模拟了**http**中的 **controller** (控制器)概念
 >
-> 每一个 **process** 与 **method** 都对应一个**唯一**的**处理器函数**
+> 每一个 **process** 都对应一个**唯一**的**处理器函数**
 >
 > **header** 与 **body** 可以给**处理器函数**传递参数
 
@@ -100,10 +95,8 @@
 {
   "U": "",
   "P": "",
-  "M": "",
   "H": {},
-  "B": "",
-  "S": ""
+  "B": ""
 }
 ```
 
@@ -115,12 +108,11 @@
   "H": {},
   "C": 0,
   "M": "",
-  "B": "",
-  "S": ""
+  "B": ""
 }
 ```
 
-> **以上是最终的 request / response 结构** 
+> **以上是最终的 request / response 结构**
 
 #### 消息流程
 
@@ -133,6 +125,7 @@
 - [golang](https://gitee.com/vesmr/websockethttp-go "golang")
 - [javascript](https://gitee.com/vesmr/websockethttp-js "javascript")
 - java ...
+- swift ...
 - dart ...
 - c/c++ ...
 
@@ -149,18 +142,18 @@
 
 #### DEMO示例
 
-> server 与 client 都注册了一个名称为 Default 方法为 Default 的 Process 监听对方消息
+> server 与 client 都注册了一个名称为 Message 的 Process 监听对方消息
 
 ##### 服务器 GO
 
 ```go
 // server 注册 Process 监听 client 消息
-websockethttp.RegisterProcessFunc("Default", "Default", func (context *SocketContext) {
+websockethttp.RegisterProcessFunc("Message", func (context *SocketContext) {
     log.Printf("收到请求：%v", context.Request.Body)
 })
 
 // server 推送消息到 client 的 Process
-websockethttp.sendMessage("Default", "Default", func (context *SocketContext) {
+websockethttp.sendMessage("Default", func (context *SocketContext) {
     log.Printf("发送结果：%v", context.Response.Code)
 })
 ```
@@ -169,12 +162,12 @@ websockethttp.sendMessage("Default", "Default", func (context *SocketContext) {
 
 ```javascript
 // client 注册 Process 监听 server 推送
-websockethttp.registerProcessFunc('Default', 'Default', {}, 'Hi', (request) => {
+websockethttp.registerProcessFunc('Default', {}, 'Hi', (request) => {
     console.log('request', request)
 })
 
 // client 发送消息到 server 的 Process
-websockethttp.sendMessage('Default', 'Default', {}, 'Hi', (response) => {
+websockethttp.sendMessage('Default', {}, 'Hi', (response) => {
     console.log('response', response)
 })
 ```
