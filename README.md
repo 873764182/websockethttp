@@ -2,50 +2,26 @@
 
 #### 项目介绍
 
-> **websockethttp** 是 websocket 的一个 **子协议**，让 websocket 使用像 http 一样方便
+> **websockethttp** 是 websocket 的一个 **子协议**，让 **websocket** 使用像 **http** 一样方便
 
-#### 功能描述
+#### 需求目标
 
-使用WebSocket协议，可以非常方便的在客户端与服务端之间建立连接通道。 但是在我们的实际项目中往往会遇到以下问题：
-
-1. 依赖于网络情况，会经常断开
-2. 为了节约资源，多业务共用一个连接
-3. Socket发送没有响应，不确定是否发送成功
-
-- **WebSocketHttp** 的目的就是为了处理以上问题的一种上层协议
-- 让socket之间的数据传输可以像HTTP一样简单，而且是双向的
-- 不单单是客户端对服务端发请求，服务端也可以对客户端发送请求
+    1. 更稳定的连接，断开能自己重连。
+    2. 节约连接资源，一个连接要能满足项目大部分的业务功能使用。
+    3. 对使用者友好，发送消息应该能知道消息是否发送成功。
 
 #### 需求分析
 
-1. 为了处理第一种情况，我们需要有一种健康检查机制，定时检查连接状态，**断开重连**机制
-
-
-2. 为了处理第二种情况，那我们需要约定数据格式在多个业务之间区分数据，所以我们要抽象一个“**request**”
-
-
-3. 为了处理第三种情况，我们需要记录每一次发送，然后让对方给每一次“发送”发送响应，所以要抽象一个“**response**”
-
-
-4. 现在抽象出了“request”与“response”，我们约定 request代表主动发送 response代表被动响应
-
-
-5. Socket连接的双方，主动发数据必须按照request的格式发送，响应数据必须按response的格式响应
-
-
-6. 理论上客户端发送request都应该收到一个服务端response响应，但是网络环境千变万化，很难保证
-
-
-7. 所以我们需要引入超时机制，超时则客户端自己终止等待，抛出超时异常
-
-
-8. 注意这里指的“客户端”与“服务端”不是传统意义上的，而是：当前谁发送request谁为客户端，谁发送response谁为服务端
-
-
-9. 我们有了request与response，当然需要有一个统一的东西来处理它们，所以我们再定义一个叫process的负责处理，类似与web中的controller
-
-
-10. 根据约定 **request** 与 **response** 格式如下
+    1. 为了处理第一种情况，我们需要有一种健康检查机制，定时检查连接状态，**断开重连**机制
+    2. 为了处理第二种情况，那我们需要约定数据格式在多个业务之间区分数据，所以我们要抽象一个“**request**”
+    3. 为了处理第三种情况，我们需要记录每一次发送，然后让对方给每一次“发送”发送响应，所以要抽象一个“**response**”
+    4. 现在抽象出了“request”与“response”，我们约定 request代表主动发送 response代表被动响应
+    5. Socket连接的双方，主动发数据必须按照request的格式发送，响应数据必须按response的格式响应
+    6. 理论上客户端发送request都应该收到一个服务端response响应，但是网络环境复杂，很难保证
+    7. 所以我们需要引入超时机制，超时则客户端自己终止等待，抛出超时异常，像http超时一样
+    8. 连接是双向的，当前谁发送request谁为客户端，谁发送response谁为服务端
+    9. 我们有了request与response，当然需要有一个统一的东西来处理它们，所以我们再定义一个叫process的负责处理，类似与web中的controller
+    10. 根据约定 **request** 与 **response** 格式如下
 
 ##### request
 
@@ -118,22 +94,18 @@
 
 ![message.png](.images/message.png "message")
 
-#### 软件架构
+#### 使用方式
 
 选择你需要的语言版本
 
 - [golang](https://gitee.com/vesmr/websockethttp-go "golang")
 - [javascript](https://gitee.com/vesmr/websockethttp-js "javascript")
-- java ...
-- swift ...
-- dart ...
-- c/c++ ...
+- java
+- swift
+- dart
+- c/c++
 
-#### 安装教程
-
-- 请进入到对应语言版本的项目主页查看，如 [golang](https://gitee.com/vesmr/websockethttp-go "golang") 项目
-
-#### 使用说明
+请进入到对应语言版本的项目主页查看，如 [golang](https://gitee.com/vesmr/websockethttp-go "golang") 项目
 
 我们通过基于 **WebSocketHttp** 来制作一个简单的聊天室来介绍如何使用
 
@@ -153,7 +125,7 @@ websockethttp.RegisterProcessFunc("Message", func (context *SocketContext) {
 })
 
 // server 推送消息到 client 的 Process
-websockethttp.sendMessage("Default", func (context *SocketContext) {
+websockethttp.sendMessage("Message", func (context *SocketContext) {
     log.Printf("发送结果：%v", context.Response.Code)
 })
 ```
@@ -162,12 +134,12 @@ websockethttp.sendMessage("Default", func (context *SocketContext) {
 
 ```javascript
 // client 注册 Process 监听 server 推送
-websockethttp.registerProcessFunc('Default', {}, 'Hi', (request) => {
+websockethttp.registerProcessFunc('Message', {}, 'Hi', (request) => {
     console.log('request', request)
 })
 
 // client 发送消息到 server 的 Process
-websockethttp.sendMessage('Default', {}, 'Hi', (response) => {
+websockethttp.sendMessage('Message', {}, 'Hi', (response) => {
     console.log('response', response)
 })
 ```
